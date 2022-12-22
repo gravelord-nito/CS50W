@@ -1,0 +1,13 @@
+#grid{
+    display:grid;
+    gap:20px;
+    grid-template-columns: 42% 42% auto;
+}
+#grid input{
+    margin-top:20px;
+}
+
+input{
+    padding:5px;
+    border-radius:2rem;
+}

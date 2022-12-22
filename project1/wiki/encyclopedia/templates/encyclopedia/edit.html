@@ -1,0 +1,26 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
+
+<div style="margin:10%;">
+  {% if isadd %}
+    <label><h2>Write a new entry:</h2></label>
+  {% else %}
+    <label><h2>Edit page:</h2></label>
+  {% endif %}
+  <h4 style="color:red;">{{ error }}</h4>
+  <form action="{% url 'edit' title %}" method="post">
+    {% csrf_token %}
+    <input style="width:500px" name="title" placeholder="title" value={{ input_value }} {% if not isadd %} readonly {% endif %}>
+    {{ form }}
+    <div><input type="submit"></div>
+  </form>
+  <br></br>
+  <a href="https://guides.github.com/features/mastering-markdown/">Markdown guides</a>
+</div>
+
+{% endblock %}
