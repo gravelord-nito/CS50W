@@ -18,7 +18,7 @@ class newEntryForm(forms.Form):
 #main chunk
 
 def index(request):
-    lentries = util.list_entries() # TODO check this global
+    lentries = util.list_entries()
     entries = []
     search = ""
     title = "All pages"

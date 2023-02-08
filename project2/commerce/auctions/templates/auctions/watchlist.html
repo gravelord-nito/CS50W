@@ -1,0 +1,26 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 style="width:220px; border-style:none none solid none; border-width:2px;">Active Listings</h2>
+    <br>
+    <div class="container-fluid">
+        {% for listing in listings %}
+            <div class="row" style="height:210px; border-style:solid; border-width:1px; border-color:blue; overflow:auto;">
+                <img src={{listing.image}} alt={{listing.title}} class="img-thumbnail" style="width:auto; max-height:200px;">
+                <dl>
+                    <dt style="font-size:25px;"><a href={% url 'listing' name=listing.title %} >{{listing.title}}</a></dt>
+                    <dt><b>Price:</b> {{listing.price}}</dt>
+                    <dt style="font-weight:normal;">{{listing.description}}</dt>
+                    <dt style="color:grey;">{{listing.date_created}}</dt>
+                </dl>
+                {% if listing.issold %}
+                    <h3 style="color:red; font-weight:bold;">SOLD</h4>
+                {% endif %}
+                {% if listing.isclosed %}
+                    <b style="font-size:25px; color:red;">SOLD</b>
+                {% endif %}
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+{% endblock %}

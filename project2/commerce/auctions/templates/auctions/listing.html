@@ -1,0 +1,57 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class="row" style="padding-left:15px;">
+        <h2>{{listing.title}}</h2>
+        <form action={% url 'listing' name=listing.title %} method="post">
+            {% csrf_token %}
+            {% if listing in watchlist %}
+                <input type="submit" name="check" value="remove from watchlist">
+            {% else %}
+                <input type="submit" name="check" value="add to watchlist">
+            {% endif %}
+        </form>
+    </div>
+    <p style="color:blue;">{{message}}</p>
+    <h4><b style="color:grey;">Category:</b> {{listing.category}}</h4>
+    <img src={{listing.image}} alt={{listing.title}}>
+    <br>
+    <p style="font-size:15px;">{{listing.description}}</p>
+    <b>Listed by: {{listing.user.username}}
+    <b>${{listing.price}}</b>
+    <form action={% url 'listing' name=listing.title %} method="post">
+        {% csrf_token %}
+        {% if listing.isclosed %}
+            <input type="number" step=".01" name="bid" placeholder="Auction closed" disabled>
+        {% else %}
+            <input type="number" step=".01" name="bid" placeholder="Bid" required>
+        {% endif %}
+        <br>
+        <input type="submit" value="Place bid">
+    </form>
+    <br>
+    {% if isowner and not listing.isclosed %}
+        <form action={% url 'listing' name=listing.title %} method="post">
+            {% csrf_token %}
+            <input type="submit" value="Close the auction" style="background-color:red;">
+        </form>
+    {% endif %}
+    <br>
+    {% if request.user.is_authenticated %}
+        <form action={% url 'listing' name=listing.title %} method="post">
+            {% csrf_token %}
+            <textarea name="comment" cols="30"></textarea>
+            <input type="submit" value="comment">
+        </form>
+    {% endif %}
+    <h3 style="width:150px; border-style:none none solid none; border-width:2px;">Comments</h3>
+    <div class="container-fluid">
+        {% for comment in comments %}
+            <div style="height:130px; border-style:solid; border-width:1px; border-color:blue; overflow:auto;">
+                <h5>{{comment.user.username}}</h5>
+                <p>{{comment.comment}}</p>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+{% endblock %}
